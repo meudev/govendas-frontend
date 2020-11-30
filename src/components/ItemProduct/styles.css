@@ -1,0 +1,40 @@
+* {
+    color: var(--color-text-primary);;
+}
+.productItem {
+    height: 80px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "producteName" "productData";
+    border-bottom: 2px solid var(--color-text-primary);
+}
+
+.productName {
+    margin: 20px;
+    margin-top: 10px;
+    align-content: center;
+    font-size: 2rem;
+}
+
+.productData {
+    margin: 20px;
+    margin-top: -5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "sku quantidade preco";
+}
+
+.sku {
+    grid-template-areas: sku;
+    text-align: left;
+}
+
+.quantidade {
+    grid-template-areas: quantidade;
+    text-align: center;
+}
+
+.preco {
+    grid-template-areas: preco;
+    text-align: right;
+}

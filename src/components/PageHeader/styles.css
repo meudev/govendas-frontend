@@ -1,0 +1,23 @@
+.header-client {
+    width: 100%;
+
+    background: var(--color-primary);
+}
+.button-header {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+}
+.header-client img {
+    height: 3rem;
+}
+
+.header-client p {
+    flex: 1;
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
