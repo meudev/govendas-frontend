@@ -7,28 +7,36 @@ import api from '../../services/api';
 
 import './styles.css';
 
+interface ProductViewProps {
+    id: number;
+    nome: string;
+    sku: string;
+    descricao: string;
+    preco: number;
+    quantidade: number;
+}
+
 function ProductView() {
     const history = useHistory();
-    const idProduct = useParams<{ id: string; }>();
-    const [product, setProduct] = useState([]);
+    const { id } = useParams<{ id: string; }>();
+    const [product, setProduct] = useState<ProductViewProps>();
 
     useEffect(() => {
         api.get('productFindById', {
             params: {
-                id: idProduct.id,
+                id: id,
             }
         }).then(response => {
-
             setProduct(response.data.data);
-        })
-    }, [idProduct]);
+        });
+    }, [id]);
 
     function productDelete(e: FormEvent) {
         e.preventDefault();
 
         api.delete('productDelete', {
             params: {
-                id: idProduct.id,
+                id
             }
         }).then(() => {
             alert('Cadastro deletado com sucesso!');
@@ -36,8 +44,10 @@ function ProductView() {
         }).catch(() => {
             alert('Erro ao deletar!');
             console.log(e);
-        })
+        });
     }
+
+    const valorReais = parseFloat(`${product?.preco}`) / 100;
 
     return (
         <div id="content">
@@ -49,17 +59,17 @@ function ProductView() {
                 />
                 <div className="productNewItem">
                     <div className="productNewName">
-                        <strong></strong>
+                        <strong>{product?.nome}</strong>
                     </div>
                     <div className="productNewData">
-                        <p className="skuNew"><strong>SKU: </strong></p>
-                        <p className="skuNew"><strong>Descrição: </strong></p>
-                        <p className="skuNew"><strong>Preço: </strong></p>
-                        <p className="skuNew"><strong>Quantidade: </strong></p>
+                        <p className="skuNew"><strong>SKU: </strong>{product?.sku}</p>
+                        <p className="skuNew"><strong>Descrição: </strong>{product?.descricao}</p>
+                        <p className="skuNew"><strong>Preço: </strong>{valorReais.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                        <p className="skuNew"><strong>Quantidade: </strong>{product?.quantidade}</p>
                     </div>
                 </div>
                 <div className="productNewButtons">
-                    <Link to="/productEdit" className="edit">
+                    <Link to={`/productEdit/${id}`} className="edit">
                         <p>Editar</p>
                     </Link>
                     <button onClick={productDelete} className="delete">
@@ -69,7 +79,7 @@ function ProductView() {
 
             </div>
         </div>
-    )
-};
+    );
+}
 
 export default ProductView;

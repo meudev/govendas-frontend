@@ -1,10 +1,9 @@
-import React, { FormEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
+import PageHeader from '../../components/PageHeader';
 import Input from '../../components/Input';
 import Logo from '../../components/Logo';
-import PageHeader from '../../components/PageHeader';
 import api from '../../services/api';
 
 import './styles.css';
@@ -12,24 +11,37 @@ import './styles.css';
 function ClientEdit() {
     const history = useHistory();
 
+    const { id } = useParams<{ id: string; }>();
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [dataNascimento, setdataNascimento] = useState('');
 
-    function newClient(e: FormEvent) {
+    useEffect(() => {
+        api.get('clientFindById', {
+            params: {
+                id,
+            }
+        }).then(response => {
+            setNome(response.data.data.nome);
+            setCpf(response.data.data.cpf);
+            setdataNascimento(response.data.data.dataNascimento);
+        });
+    }, [id]);
+    
+
+    function update(e: FormEvent) {
         e.preventDefault();
 
-        console.log(nome, cpf, dataNascimento);
-
-        api.post('clientSave', {
-            nome,
-            cpf,
-            dataNascimento
+        api.patch('clientUpdate', {
+            id: id,
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento
         }).then(() => {
-            alert('Cadastro realizado com sucesso!');
-            history.push('/client');
+            alert('Cliente atualizado com sucesso!');
+            history.push(`/clientView/${id}`);
         }).catch(() => {
-            alert('Erro no cadastro!');
+            alert('Erro ao atualizar!');
             console.log(e);
         });
     }
@@ -40,22 +52,25 @@ function ClientEdit() {
             <div className="page">
                 <PageHeader
                     title="EDITAR CLIENTE"
-                    urlBack="/clientView"
+                    urlBack={`/clientView/${id}`}
                 />
-                <form onSubmit={newClient}>
+                <form onSubmit={update}>
                     <Input
+                        type="text"
                         label="Nome Completo"
                         name="nome"
                         value={nome}
                         onChange={(e) => { setNome(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="CPF"
                         name="cpf"
                         value={cpf}
                         onChange={(e) => { setCpf(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Data Nascimento"
                         name="dataNascimento"
                         value={dataNascimento}
@@ -65,7 +80,7 @@ function ClientEdit() {
                         <button className="save" type="submit">
                             <p>Salvar</p>
                         </button>
-                        <Link to="/client" className="cancel">
+                        <Link to={`/clientView/${id}`} className="cancel">
                             <p>Cancelar</p>
                         </Link>
                     </div>

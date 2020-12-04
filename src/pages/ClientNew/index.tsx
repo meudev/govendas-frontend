@@ -42,18 +42,21 @@ function ClientNew() {
                 />
                 <form onSubmit={newClient}>
                     <Input
+                        type="text"
                         label="Nome Completo"
                         name="nome"
                         value={nome}
                         onChange={(e) => { setNome(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="CPF"
                         name="cpf"
                         value={cpf}
                         onChange={(e) => { setCpf(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Data Nascimento"
                         name="dataNascimento"
                         value={dataNascimento}

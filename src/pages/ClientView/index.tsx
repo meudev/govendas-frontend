@@ -7,33 +7,38 @@ import api from '../../services/api';
 
 import './styles.css';
 
-function ClientView() {
+interface ClientViewProps {
+    id: number;
+    nome: string;
+    cpf: string;
+    dataNascimento: string;
+}
+
+const ClientView: React.FC = () => {
     const history = useHistory();
-    const idClient = useParams<{ id: string; }>();
-    const [client, setClient] = useState([]);
+    const { id } = useParams<{ id: string; }>();
+    const [client, setClient] = useState<ClientViewProps>();
 
     useEffect(() => {
         api.get('clientFindById', {
             params: {
-                id: idClient.id,
+                id,
             }
         }).then(response => {
 
             setClient(response.data.data);
         })
-    }, [idClient]);
-
-    console.log(client);
+    }, [id]);
 
     function clientDelete(e: FormEvent) {
         e.preventDefault();
 
         api.delete('clientDelete', {
             params: {
-                id: idClient.id,
+                id,
             }
         }).then(() => {
-            alert('Cadastro deletado com sucesso!');
+            alert('Cliente deletado com sucesso!');
             history.push('/client');
         }).catch(() => {
             alert('Erro ao deletar!');
@@ -51,15 +56,13 @@ function ClientView() {
                 />
                 <div className="clientNewItem">
                     <div className="clientNewName">
-                        <strong></strong>
-                    </div>
-                    <div className="clientNewData">
-                        <p className="cpfNew"><strong>CPF: </strong></p>
-                        <p className="dateNew"><strong>Datas Nasc.: </strong></p>
+                        <strong>{client?.nome}</strong>
+                        <p className="cpfNew"><strong>CPF: </strong>{client?.cpf}</p>
+                        <p className="dateNew"><strong>Datas Nasc.: </strong>{client?.dataNascimento}</p>
                     </div>
                 </div>
                 <div className="clientNewButtons">
-                    <Link to="/clientEdit" className="edit">
+                    <Link to={`/clientEdit/${client?.id}`} className="edit">
                         <p>Editar</p>
                     </Link>
                     <button onClick={clientDelete} className="delete">

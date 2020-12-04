@@ -12,6 +12,7 @@ import ProductView from './pages/ProductView';
 import ProductEdit from './pages/ProductEdit';
 import Order from './pages/Order';
 import OrderNew from './pages/OrderNew';
+import OrderNewProduct from './pages/OrderNewProduct';
 import OrderView from './pages/OrderView';
 import OrderEdit from './pages/OrderEdit';
 
@@ -22,15 +23,17 @@ function Routes() {
             <Route path="/client" exact component={Client}/>
             <Route path="/clientNew" exact component={ClientNew}/>
             <Route path="/clientView/:id" component={ClientView}/>
-            <Route path="/clientEdit" component={ClientEdit}/>
+            <Route path="/clientEdit/:id" component={ClientEdit}/>
             <Route path="/product" exact component={Product}/>
             <Route path="/productNew" exact component={ProductNew}/>
             <Route path="/productView/:id" component={ProductView}/>
-            <Route path="/productEdit" component={ProductEdit}/>
+            <Route path="/productEdit/:id" component={ProductEdit}/>
             <Route path="/order" exact component={Order}/>
-            <Route path="/orderNew" exact component={OrderNew}/>
+            <Route path="/orderNew/:id" exact component={OrderNew}/>
+            <Route path="/orderNew/p/:id" exact component={OrderNew}/>
+            <Route path="/orderNewProduct" exact component={OrderNewProduct}/>
             <Route path="/orderView/:id" component={OrderView}/>
-            <Route path="/orderEdit" component={OrderEdit}/>
+            <Route path="/orderEdit/:id" component={OrderEdit}/>
         </BrowserRouter>
     )
 }

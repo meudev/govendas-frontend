@@ -44,24 +44,28 @@ function OrderEdit() {
                 />
                 <form onSubmit={newOrder}>
                     <Input
+                        type="text"
                         label="Cliente"
                         name="cliente"
                         value={cliente}
                         onChange={(e) => { setCliente(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Total Compra"
                         name="totalCompra"
                         value={totalCompra}
                         onChange={(e) => { setTotalCompra(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Data da Compra"
                         name="dataCompra"
                         value={dataCompra}
                         onChange={(e) => { setDataCompra(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Produtos"
                         name="produtos"
                         value={produtos}

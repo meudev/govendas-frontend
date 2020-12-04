@@ -25,7 +25,7 @@ function ProductNew() {
             sku,
             nome,
             descricao,
-            preco: preco.replace(',','').replace('.',''),
+            preco: preco.replace(',', '').replace('.', ''),
             quantidade
         }).then(() => {
             alert('Cadastro realizado com sucesso!');
@@ -46,30 +46,35 @@ function ProductNew() {
                 />
                 <form onSubmit={newProduct}>
                     <Input
+                        type="text"
                         label="Sku"
                         name="sku"
                         value={sku}
                         onChange={(e) => { setSku(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Nome"
                         name="nome"
                         value={nome}
                         onChange={(e) => { setNome(e.target.value) }}
                     />
                     <Input
+                        type="textarea"
                         label="Descrição"
                         name="descricao"
                         value={descricao}
                         onChange={(e) => { setDescricao(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Preço"
                         name="preco"
                         value={preco}
                         onChange={(e) => { setPreco(e.target.value) }}
                     />
                     <Input
+                        type="text"
                         label="Quantidade"
                         name="quantidade"
                         value={quantidade}

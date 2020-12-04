@@ -2,8 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import api from '../../services/api';
 
 import PageHeader from '../../components/PageHeader';
-import ButtonHeaderNew from '../../components/ButtonHeaderNew';
-import ItemOrder, { OrderItem } from '../../components/ItemOrder';
+import ItemProductOrderAdd, { ProductItem } from '../../components/ItemProductOrderAdd';
 
 import Logo from '../../components/Logo';
 import iconLupa from '../../assets/images/icons/icone-lupa.png';
@@ -11,36 +10,34 @@ import iconLupa from '../../assets/images/icons/icone-lupa.png';
 
 import './styles.css';
 
-function Order() {
+function OrderNewProduct() {
 
-    const [orders, setOrders] = useState([]);
+    const [produtos, setProdutos] = useState([]);
 
     const [parametroBusca, setparametroBusca] = useState('');
 
     useEffect(() => {
-        api.get('orderFindAll'
+        api.get('productFindAll'
         ).then(response => {
 
-            setOrders(response.data.data);
-        })["catch"](function (error) {
-            setOrders([]);
-        });
+            setProdutos(response.data.data);
+        })
     }, []);
 
-    async function searchOrder(e: FormEvent) {
+    async function searchProduct(e: FormEvent) {
         e.preventDefault();
 
-        const searchType = parametroBusca === '' ? 'orderFindAll' : 'orderFindByName';
+        const searchType = parametroBusca === '' ? 'productFindAll' : 'productFindByName';
 
         await api.get(`${searchType}`, {
             params: {
                 nome: parametroBusca,
             }
         }).then(function (response) {
-            setOrders(response.data.data);
+            setProdutos(response.data.data);
         })["catch"](function (error) {
-            alert('Nenhum pedido encontrado!');
-            setOrders([]);
+            alert('Nenhum cliente encontrado!');
+            setProdutos([]);
         });
 
     }
@@ -50,21 +47,17 @@ function Order() {
             <Logo />
             <div className="page">
                 <PageHeader
-                    title="PEDIDO"
-                    urlBack="/"
+                    title="ADICIONAR PRODUTO"
+                    urlBack="/orderNew"
                 />
-                <ButtonHeaderNew
-                    label="Novo Pedido"
-                    url="orderNew/0"
-                />
-                <form id="search-item" onSubmit={searchOrder} >
+                <form id="search-item" onSubmit={searchProduct} >
                     <div className="search-input">
                         <input
                             type="text"
                             id="search"
                             value={parametroBusca}
                             onChange={(e) => { setparametroBusca(e.target.value) }}
-                            placeholder="Pesquisar Pedido"
+                            placeholder="Pesquisar Produto"
                         />
                         <button type="submit" className="search-button">
                             <img src={iconLupa} alt="" />
@@ -75,8 +68,8 @@ function Order() {
                 <div className="hr" />
 
                 <main>
-                    {orders.map((order: OrderItem) => {
-                        return <ItemOrder key={order.id} order={order} />
+                    {produtos.map((produto: ProductItem) => {
+                        return <ItemProductOrderAdd key={produto.id} product={produto} />
                     })}
                 </main>
             </div>
@@ -84,4 +77,4 @@ function Order() {
     )
 };
 
-export default Order;
+export default OrderNewProduct;
